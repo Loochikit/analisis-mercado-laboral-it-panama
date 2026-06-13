@@ -164,7 +164,7 @@ def extract_info_with_gemini(titulo: str, descripcion: str) -> VacanteProcesada:
             
             genai.configure(api_key=gemini_key)
             # Probar múltiples modelos por compatibilidad en la nube de Google
-            modelos_a_probar = ["gemini-1.5-flash", "gemini-pro", "gemini-1.5-flash-latest"]
+            modelos_a_probar = ["gemini-2.5-flash", "gemini-1.5-flash", "gemini-pro", "gemini-1.5-flash-latest"]
             response = None
             last_err = None
             
@@ -195,8 +195,8 @@ def extract_info_with_gemini(titulo: str, descripcion: str) -> VacanteProcesada:
                 try:
                     model = genai.GenerativeModel(model_name)
                     gen_config = {}
-                    # Si es un modelo 1.5, usar el parseo estructurado JSON nativo
-                    if "1.5" in model_name:
+                    # Si es un modelo 1.5 o 2.5, usar el parseo estructurado JSON nativo
+                    if "1.5" in model_name or "2.5" in model_name:
                         gen_config = {"response_mime_type": "application/json"}
                     
                     response = model.generate_content(prompt, generation_config=gen_config)

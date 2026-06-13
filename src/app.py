@@ -672,7 +672,7 @@ with tab_ia:
                     """
                     
                     # Probar múltiples modelos por compatibilidad en la nube de Google
-                    modelos_a_probar = ["gemini-1.5-flash", "gemini-pro", "gemini-1.5-flash-latest"]
+                    modelos_a_probar = ["gemini-2.5-flash", "gemini-1.5-flash", "gemini-pro", "gemini-1.5-flash-latest"]
                     response = None
                     last_err = None
                     
