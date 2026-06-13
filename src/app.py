@@ -329,11 +329,11 @@ selected_exp = st.sidebar.slider(
 st.sidebar.markdown("---")
 st.sidebar.markdown("""
 ### 👥 Grupo 4 - Integrantes:
-* *Edita esta sección en `src/app.py`*
-* **Estudiante 1** (Cédula)
-* **Estudiante 2** (Cédula)
-* **Estudiante 3** (Cédula)
-* **Estudiante 4** (Cédula)
+* **Bryan Law** (8-1011-2459)
+* **Evaristo Alvarez** (8-1011-177)
+* **Fernando Jimenez** (20-24-7669)
+* **Manuel Campos** (8-1022-1118)
+* **Diego Gordon** (8-1017-349)
 
 *Gestión de la Información — Semestre I, 2026*
 """)
