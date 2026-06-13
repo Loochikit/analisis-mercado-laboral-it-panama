@@ -163,8 +163,10 @@ def extract_info_with_gemini(titulo: str, descripcion: str) -> VacanteProcesada:
             import json
             
             genai.configure(api_key=gemini_key)
-            # Usamos gemini-1.5-flash por ser rápido, costo-eficiente y soportar JSON estructurado
-            model = genai.GenerativeModel("gemini-1.5-flash")
+            # Probar múltiples modelos por compatibilidad en la nube de Google
+            modelos_a_probar = ["gemini-1.5-flash", "gemini-pro", "gemini-1.5-flash-latest"]
+            response = None
+            last_err = None
             
             prompt = f"""
             Analiza la siguiente oferta de empleo en Panamá y extrae los datos requeridos.
@@ -189,11 +191,23 @@ def extract_info_with_gemini(titulo: str, descripcion: str) -> VacanteProcesada:
             - En habilidades_tecnicas, incluye lenguajes (Python, JavaScript, SQL), herramientas (Docker, Git, Excel), bases de datos o nubes. No incluyas habilidades blandas como 'puntual' o 'trabajo en equipo'.
             """
             
-            # Ejecutar con configuración de respuesta JSON estructurada
-            response = model.generate_content(
-                prompt,
-                generation_config={"response_mime_type": "application/json"}
-            )
+            for model_name in modelos_a_probar:
+                try:
+                    model = genai.GenerativeModel(model_name)
+                    gen_config = {}
+                    # Si es un modelo 1.5, usar el parseo estructurado JSON nativo
+                    if "1.5" in model_name:
+                        gen_config = {"response_mime_type": "application/json"}
+                    
+                    response = model.generate_content(prompt, generation_config=gen_config)
+                    if response and response.text:
+                        break
+                except Exception as e:
+                    last_err = e
+                    continue
+            
+            if not response:
+                raise last_err
             
             data = json.loads(response.text.strip())
             return VacanteProcesada(**data)

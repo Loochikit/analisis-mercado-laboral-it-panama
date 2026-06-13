@@ -322,6 +322,20 @@ selected_exp = st.sidebar.slider(
 )
 
 
+# 7. Información de los Integrantes del Grupo 4
+st.sidebar.markdown("---")
+st.sidebar.markdown("""
+### 👥 Grupo 4 - Integrantes:
+* *Edita esta sección en `src/app.py`*
+* **Estudiante 1** (Cédula)
+* **Estudiante 2** (Cédula)
+* **Estudiante 3** (Cédula)
+* **Estudiante 4** (Cédula)
+
+*Gestión de la Información — Semestre I, 2026*
+""")
+
+
 # =====================================================================
 # Lógica de Filtrado de Datos
 # =====================================================================
@@ -639,7 +653,6 @@ with tab_ia:
                 try:
                     import google.generativeai as genai
                     genai.configure(api_key=gemini_key)
-                    model = genai.GenerativeModel("gemini-1.5-flash")
                     
                     prompt_analisis = f"""
                     Como un experto Científico de Datos y Consultor del Mercado Laboral IT en Centroamérica, redacta un informe ejecutivo dirigido a los directivos de la Universidad Tecnológica de Panamá (UTP) analizando la demanda del mercado laboral tecnológico según las estadísticas actuales de nuestra base de datos.
@@ -658,7 +671,24 @@ with tab_ia:
                     3. Mantén un tono optimista sobre las habilidades emergentes pero realista sobre las brechas salariales.
                     """
                     
-                    response = model.generate_content(prompt_analisis)
+                    # Probar múltiples modelos por compatibilidad en la nube de Google
+                    modelos_a_probar = ["gemini-1.5-flash", "gemini-pro", "gemini-1.5-flash-latest"]
+                    response = None
+                    last_err = None
+                    
+                    for model_name in modelos_a_probar:
+                        try:
+                            model = genai.GenerativeModel(model_name)
+                            response = model.generate_content(prompt_analisis)
+                            if response and response.text:
+                                break
+                        except Exception as e:
+                            last_err = e
+                            continue
+                            
+                    if not response:
+                        raise last_err
+                        
                     texto_informe = response.text
                     
                     st.session_state["informe_ia"] = texto_informe
@@ -703,5 +733,6 @@ with tab_ia:
                 2. <b>Enfoque en Datos y Cloud:</b> Implementar electivas específicas en Arquitecturas Cloud (AWS/Azure) y Pipelines de Ingesta de Datos (Data Engineering), alineándose con las tecnologías emergentes identificadas en el modelo predictivo.<br>
                 3. <b>Talleres de Habilidades Técnicas:</b> Habilitar bootcamps intensivos sobre tecnologías de frontend moderno como <b>React</b> y backend en <b>Python</b> o <b>Java (Spring Boot)</b>, minimizando la brecha entre los planes de estudio tradicionales y el ecosistema empresarial panameño.
             </p>
+            <small style="color: #6B7280;"><i>*Nota: Para habilitar el informe redactado por la red neuronal Gemini de Google, configure la variable de entorno GEMINI_API_KEY en su archivo .env local y presione el botón de arriba.</i></small>
         </div>
         """, unsafe_allow_html=True)
