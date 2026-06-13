@@ -665,10 +665,23 @@ with tab_ia:
                     - Distribución de vacantes por categorías de rol: {categoria_counts}
                     - Muestra de habilidades del mercado: {top_skills_str}
                     
-                    Requisitos del informe:
+                    Requisitos del informe y formato:
                     1. Divide el análisis en 3 secciones: "Diagnóstico del Mercado IT en Panamá", "Brecha de Habilidades en la Academia" y "Recomendaciones Curriculares para la UTP".
                     2. Sé extremadamente profesional, usa terminología técnica pero legible, y proporciona datos cuantitativos concretos adaptados a Panamá.
                     3. Mantén un tono optimista sobre las habilidades emergentes pero realista sobre las brechas salariales.
+                    4. Cabecera del informe: En caso de incluir un encabezado de reporte (como Para/De/Fecha/Asunto), en el campo "De:" escribe exactamente: **De: Analistas del Grupo 4 (FISC-UTP)**. No utilices placeholders como '[Su Nombre/Nombre de la Consultora]' o corchetes similares en ninguna parte del documento.
+                    5. Posicionamiento de Viñetas: Para listas o puntos clave, utiliza formato Markdown estándar en una sola línea (ej: `* **Tema**: Explicación...`) asegurándote de no dejar saltos de línea ni espacios adicionales inmediatamente después del asterisco (*), para evitar que las viñetas se separen de sus textos al renderizarse en Streamlit.
+                    6. Firma final: Firma el reporte de forma profesional indicando únicamente:
+                       
+                       Atentamente,
+                       **Grupo 4 (FISC-UTP)**
+                       
+                       E incluye la lista con viñetas de los integrantes:
+                       - Bryan Law
+                       - Evaristo Alvarez
+                       - Fernando Jimenez
+                       - Manuel Campos
+                       - Diego Gordon
                     """
                     
                     # Probar múltiples modelos por compatibilidad en la nube de Google
@@ -733,6 +746,5 @@ with tab_ia:
                 2. <b>Enfoque en Datos y Cloud:</b> Implementar electivas específicas en Arquitecturas Cloud (AWS/Azure) y Pipelines de Ingesta de Datos (Data Engineering), alineándose con las tecnologías emergentes identificadas en el modelo predictivo.<br>
                 3. <b>Talleres de Habilidades Técnicas:</b> Habilitar bootcamps intensivos sobre tecnologías de frontend moderno como <b>React</b> y backend en <b>Python</b> o <b>Java (Spring Boot)</b>, minimizando la brecha entre los planes de estudio tradicionales y el ecosistema empresarial panameño.
             </p>
-            <small style="color: #6B7280;"><i>*Nota: Para habilitar el informe redactado por la red neuronal Gemini de Google, configure la variable de entorno GEMINI_API_KEY en su archivo .env local y presione el botón de arriba.</i></small>
         </div>
         """, unsafe_allow_html=True)
