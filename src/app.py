@@ -152,6 +152,9 @@ st.markdown("""
     .insight-box div, .insight-box p, .insight-box li, .insight-box span, .insight-box b {
         color: #1F2937 !important;
     }
+    .insight-box ul, .insight-box ol, .insight-box li, .insight-box table, .insight-box tr, .insight-box td, .insight-box th {
+        white-space: normal !important;
+    }
     
     /* Tarjetas de Clusters Adaptables a Modo Oscuro/Claro */
     .cluster-card {
@@ -654,6 +657,14 @@ with tab_ia:
                     import google.generativeai as genai
                     genai.configure(api_key=gemini_key)
                     
+                    # Generar la fecha actual dinámicamente en español
+                    meses_es = [
+                        "enero", "febrero", "marzo", "abril", "mayo", "junio", 
+                        "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"
+                    ]
+                    ahora = datetime.now()
+                    fecha_actual = f"{ahora.day} de {meses_es[ahora.month - 1]} de {ahora.year}"
+                    
                     prompt_analisis = f"""
                     Como un experto Científico de Datos y Consultor del Mercado Laboral IT en Centroamérica, redacta un informe ejecutivo dirigido a los directivos de la Universidad Tecnológica de Panamá (UTP) analizando la demanda del mercado laboral tecnológico según las estadísticas actuales de nuestra base de datos.
                     
@@ -669,8 +680,12 @@ with tab_ia:
                     1. Divide el análisis en 3 secciones: "Diagnóstico del Mercado IT en Panamá", "Brecha de Habilidades en la Academia" y "Recomendaciones Curriculares para la UTP".
                     2. Sé extremadamente profesional, usa terminología técnica pero legible, y proporciona datos cuantitativos concretos adaptados a Panamá.
                     3. Mantén un tono optimista sobre las habilidades emergentes pero realista sobre las brechas salariales.
-                    4. Cabecera del informe: En caso de incluir un encabezado de reporte (como Para/De/Fecha/Asunto), en el campo "De:" escribe exactamente: **De: Analistas del Grupo 4 (FISC-UTP)**. No utilices placeholders como '[Su Nombre/Nombre de la Consultora]' o corchetes similares en ninguna parte del documento.
-                    5. Posicionamiento de Viñetas: Para listas o puntos clave, utiliza formato Markdown estándar en una sola línea (ej: `* **Tema**: Explicación...`) asegurándote de no dejar saltos de línea ni espacios adicionales inmediatamente después del asterisco (*), para evitar que las viñetas se separen de sus textos al renderizarse en Streamlit.
+                    4. Cabecera del informe: Comienza el informe redactando obligatoriamente una cabecera estructurada con exactamente los siguientes campos al principio, sin corchetes ni placeholders:
+                       **Para**: Directivos de la Universidad Tecnológica de Panamá (UTP)
+                       **De**: Analistas del Grupo 4 (FISC-UTP)
+                       **Fecha**: {fecha_actual}
+                       **Asunto**: Análisis de la Demanda del Mercado Laboral IT en Panamá y Recomendaciones Curriculares
+                    5. Formato de Listas y Viñetas: Para listas o puntos clave, utiliza un formato de un solo nivel (sin anidamientos complejos). Escribe listas simples usando un único guion '-' o asterisco '*' al inicio de la línea seguido directamente del texto (ej: `- **Nombre**: Detalle`). Evita dejar líneas vacías entre elementos de la lista y no utilices sub-viñetas o sangrías adicionales, para garantizar la alineación vertical perfecta del texto y los marcadores.
                     6. Firma final: Firma el reporte de forma profesional indicando únicamente:
                        
                        Atentamente,
